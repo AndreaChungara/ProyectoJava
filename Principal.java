@@ -54,7 +54,7 @@ public class Principal {
 		Administrador ad=new Administrador();
 		
 		do {
-			System.out.println("Menu:\n 1.Cargar Productos\n 2.Modificar Producto\n 3.Eliminar Producto\n 4.Ver pedidos de clientes\n 5.Ver Compradores\n 6.Salir");//
+			System.out.println("Menu:\n 1.Cargar Productos\n 2.Modificar Producto\n 3.Eliminar Producto\n 4.Ver Compradores\n 5.Salir");//
 			respuesta=entrada.nextShort();
 			
 			switch(respuesta){
@@ -68,20 +68,17 @@ public class Principal {
 			case 3://Eliminar Producto
 				ad.eliminarProducto();
 				break;
-			case 4://Ver pedidos de Clientes
-				ad.verPedidos();
+			case 4://Ver compradores
+				ad.verCompradores();
 				break;
-			case 5://Ver compradores
-				ad.verClientes();
-				break;
-			case 6:
+			case 5:
 				break;
 			
 			default:
 				System.out.println("Opcion incorrecta");
 			
 			}
-		}while(respuesta!=6);
+		}while(respuesta!=5);
 	}///Llave del ingreso del Administrador
 	
 	public static void IngresoCliente() throws SQLException {
@@ -113,6 +110,7 @@ public class Principal {
 				client.CrearCarrito();
 				break;	
 			case 2://Ver listado de productos seleccionados YA CONFIRMADOS
+				
 				break;
 			case 3:
 				break;
@@ -120,7 +118,7 @@ public class Principal {
 				System.out.println("Opcion incorrecta");
 				break;
 				}
-		}while(opcion!=4);
+		}while(opcion!=3);
 		
 		
 		

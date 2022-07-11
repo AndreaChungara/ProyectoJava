@@ -77,9 +77,9 @@ public class Cliente {
 		ArrayList <Integer> arrproducto= new ArrayList<Integer>();
 		ArrayList <Integer> cant= new ArrayList<Integer>();
 
-		//int[] pc=new int[2];
 		CONEXION conexion= new CONEXION();	
 		Scanner entrada=new Scanner(System.in);
+		
 		int opc;
 		int sumprod=0;
 		
@@ -100,6 +100,7 @@ public class Cliente {
 
 				entrada.nextLine();
 				String nombreProducto=null;
+				
 				String sql2 = "SELECT idProducto, Nombre_Producto, Precio_Producto, Stock_Producto FROM producto WHERE categoria_idCategoria="+opc;
 				ResultSet rs2 = conexion.devuelveConsulta(sql2);
 				
@@ -141,7 +142,7 @@ public class Cliente {
 		if(sumprod>0){
 			Carrito carrito=new Carrito(arrproducto, cant);
 			do {
-				System.out.println("Como deseas continuar?\n 1.Calcular Total\n 2.Agregar productos\n 3.Eliminar productos\n 4.Confirmar Compra\n 5.Salir");
+				System.out.println("Como deseas continuar?\n 1.Calcular Total\n 2.Confirmar Compra\n 3.Salir");
 				opc=entrada.nextInt();
 				
 				switch(opc){
@@ -150,13 +151,29 @@ public class Cliente {
 					System.out.println("Precio total del carrito:"+total);
 
 					break;
-				case 2:////////////////////////////AQUI FALTA
+				case 2:
+					int idCompra;
+					int idProducto;
+					int cantidad;
+					
+					idCompra=carrito.agregarCompra(idCliente);
+					
+					if(idCompra!=0){
+						for(int i=0; i<arrproducto.size(); i++) {
+							idProducto=arrproducto.get(i);
+							cantidad=cant.get(i);
+							
+							
+							String sql="INSERT INTO listap (Compra_idCompra, Producto_idProducto, Cantidad) VALUES ("+idCompra+", "+idProducto+","+cantidad+");";
+							conexion.realizaConsulta(sql);
+							System.out.println("Compra confirmada");
+						}
+						numcomprasCliente++;
+						String sql2="UPDATE cliente SET NumCompras_Cliente='"+numcomprasCliente+"' WHERE idCliente="+idCliente+";";
+						conexion.realizaConsulta(sql2);
+					};
 					break;
 				case 3:
-					break;
-				case 4:
-					break;
-				case 5:
 					System.out.println("Volviendo al menu");
 					break;
 				default:
@@ -164,7 +181,7 @@ public class Cliente {
 					break;
 				}
 				
-			}while(opc!=5);
+			}while(opc!=3);
 
 			
 		}
@@ -172,9 +189,6 @@ public class Cliente {
 			System.out.println("Volviendo al menu");
 
 		};
-		
-		
-		
-		}
+	}
 
 }///NO SE TOCA LLAVE

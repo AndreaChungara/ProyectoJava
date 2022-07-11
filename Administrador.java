@@ -7,7 +7,7 @@ public class Administrador {
 		String nombreProducto;
 		int stockProducto;
 		float precioProducto;
-		short categoriaProducto;
+		int categoriaProducto;
 		//short categoriaProducto;
 		
 		Scanner entrada=new Scanner(System.in);
@@ -20,10 +20,10 @@ public class Administrador {
 		stockProducto=entrada.nextInt();
 		
 		System.out.println("Elige la opcion de categoria:\n 1.Lacteos\n 2.Limpieza\n 3.Bebidas\n 4.Frutas y Verduras\n 5.Alimentos");
-		 categoriaProducto= entrada.nextShort();
+		 categoriaProducto= entrada.nextInt();
 		
 		CONEXION conexion=new CONEXION();
-		String sql="INSERT INTO producto(Nombre_Producto, Precio_Producto, Stock_Producto, idCategoria) VALUES ('"+nombreProducto+"', "+precioProducto+","+stockProducto+", "+categoriaProducto+");";
+		String sql="INSERT INTO producto(Nombre_Producto, Precio_Producto, Stock_Producto, categoria_idCategoria) VALUES ('"+nombreProducto+"', "+precioProducto+","+stockProducto+", "+categoriaProducto+");";
 		conexion.realizaConsulta(sql);
 		System.out.println("Producto cargado");
 	}
@@ -182,13 +182,22 @@ public class Administrador {
 		};
 	
 	}
+
+public void verCompradores() throws SQLException {
+	CONEXION conexion= new CONEXION();
+	System.out.println("Los clientes que realizaron al menos una compra son;");
+
+	String sql="SELECT u.Nombre_Usuario, c.Apellido_Cliente  "
+			+ "FROM usuario as u inner join cliente as c "
+			+ "on u.idUsuario=c.Usuario_idUsuario "
+			+ "where NumCompras_Cliente>0;";
 	
-	/////////FALTA PORQUE NECESITO DATOS QUE BRINDARA LAS FUNCIONES DE CLIENTE
-public void verPedidos() {
-	
-};
-public void verClientes() {
-	
-};
+	ResultSet rs= conexion.devuelveConsulta(sql);
+	while(rs.next()) {
+		String nombreUsuario=rs.getString("Nombre_Usuario");
+		String apellidoCliente=rs.getString("Apellido_Cliente");
+		System.out.println("Nombre:"+nombreUsuario+"  Apellido:"+apellidoCliente);
+		}
+	};
 	
 }//NO SE TOCA
